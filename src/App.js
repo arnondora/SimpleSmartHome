@@ -21,7 +21,11 @@ const Contianer = styled.div`
 
 const Header = styled.h1`
   color: #424242;
-  margin-top: 0;
+  margin: 0;
+`
+
+const SubHeader = styled.p`
+color: #9E9E9E;
 `
 class App extends React.Component {
 
@@ -50,7 +54,8 @@ class App extends React.Component {
   render() {
     return (
       <SuperWrapper>
-        <Header>Smart Home Controller</Header>
+        <Header>Simple Smart Home Controller</Header>
+        <SubHeader>Last Updated from Server : {this.state.settings != null ? this.state.settings.last_update_datetime : null}</SubHeader>
         {
           this.state.controls !== null && this.state.pi !== null && this.state.settings !== null ?
           <Contianer>
