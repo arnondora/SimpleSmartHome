@@ -42,7 +42,6 @@ const StatContainer = styled.div`
 
 export default class PiStatus extends React.Component {
   render () {
-    console.log(this.props.pi)
     return (
       <Container>
         <Header>Pi's Status</Header>
