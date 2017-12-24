@@ -1,6 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import Sensor from './components/Sensor'
+import Blinds from './components/Blinds'
+import Lights from './components/Lights'
 import PiStatus from './components/PiStatus'
 
 import firebase from './utils/firebase'
@@ -17,6 +20,15 @@ const SuperWrapper = styled.div`
 const Contianer = styled.div`
   display: flex;
   flex-direction:column;
+`
+
+const ControllerWrapper = styled.div`
+  display: flex;
+`
+
+const ControllerItem = styled.div`
+  width:40%;
+  margin-right: 30px;
 `
 
 const Header = styled.h1`
@@ -59,11 +71,27 @@ class App extends React.Component {
         {
           this.state.controls !== null && this.state.pi !== null && this.state.settings !== null ?
           <Contianer>
+
+            <Sensor sensors={this.state.controls.Sensors}/>
+            <ControllerWrapper>
+                <ControllerItem><Blinds blinds={this.state.controls.Blinds} onBlindsToggle={this.onBlindsToggle.bind(this)}/></ControllerItem>
+                <ControllerItem><Lights blinds={this.state.controls.Lights} onLightToggle={this.onLightToggle.bind(this)}/></ControllerItem>
+            </ControllerWrapper>
             <PiStatus pi={this.state.pi}/>
           </Contianer> : <p>Gathering information from Firebase</p> //Prevent Exception from feeding null value when loading the data
         }
       </SuperWrapper>
     );
+  }
+
+  onBlindsToggle = name => (event, checked) => {
+    var toggle = checked === true ? 1 : 0
+    firebase.database().ref('/Controls/Blinds/' + name).child('value').set(toggle)
+  }
+
+  onLightToggle = name => (event, checked) => {
+    var toggle = checked === true ? 1 : 0
+    firebase.database().ref('/Controls/Lights/' + name).child('value').set(toggle)
   }
 }
 
